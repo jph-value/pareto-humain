@@ -197,11 +197,12 @@ body {
     }
     
     /* PARETO popup - display above text */
-    #paretoPopup {
-        position: fixed;
-        top: 80px;
-        left: 50%;
-        transform: translateX(-50%) translateY(-100%);
+    .word-container.pareto-container .popup-window {
+        position: fixed !important;
+        top: 80px !important;
+        bottom: auto !important;
+        left: 50% !important;
+        transform: translateX(-50%) translateY(-100%) !important;
         min-width: clamp(280px, 90vw, 380px);
         max-width: 92vw;
         padding: clamp(20px, 5vw, 28px);
@@ -213,12 +214,12 @@ body {
     }
     
     /* HUMAIN popup - remains at bottom */
-    #humainPopup {
-        position: fixed;
-        bottom: 20px;
-        left: 50%;
-        top: auto;
-        transform: translateX(-50%) translateY(100%);
+    .word-container.humain-container .popup-window {
+        position: fixed !important;
+        bottom: 20px !important;
+        top: auto !important;
+        left: 50% !important;
+        transform: translateX(-50%) translateY(100%) !important;
         min-width: clamp(280px, 90vw, 380px);
         max-width: 92vw;
         padding: clamp(20px, 5vw, 28px);
@@ -229,39 +230,39 @@ body {
         z-index: 1500;
     }
     
-    .word-container:hover #paretoPopup {
-        transform: translateX(-50%) translateY(0);
+    .word-container.pareto-container:hover .popup-window {
+        transform: translateX(-50%) translateY(0) !important;
     }
     
-    .word-container:hover #humainPopup {
-        transform: translateX(-50%) translateY(0);
+    .word-container.humain-container:hover .popup-window {
+        transform: translateX(-50%) translateY(0) !important;
     }
     
     /* Button reordering for PARETO popup */
-    #paretoPopup .popup-text {
+    .word-container.pareto-container .popup-window .popup-text {
         order: 2;
         font-size: clamp(16px, 4.5vw, 18px);
         margin-bottom: clamp(16px, 4vw, 20px);
     }
     
-    #paretoPopup .popup-button {
+    .word-container.pareto-container .popup-window .popup-button {
         order: 1;
         margin-bottom: clamp(16px, 4vw, 20px);
     }
     
-    #paretoPopup .popup-disclaimer {
+    .word-container.pareto-container .popup-window .popup-disclaimer {
         order: 3;
         font-size: clamp(12px, 3.5vw, 14px);
         margin-bottom: 0;
     }
     
     /* HUMAIN popup keeps original order */
-    #humainPopup .popup-text {
+    .word-container.humain-container .popup-window .popup-text {
         font-size: clamp(16px, 4.5vw, 18px);
         margin-bottom: clamp(16px, 4vw, 20px);
     }
     
-    #humainPopup .popup-disclaimer {
+    .word-container.humain-container .popup-window .popup-disclaimer {
         font-size: clamp(12px, 3.5vw, 14px);
         margin-bottom: clamp(12px, 3.5vw, 16px);
     }
@@ -297,40 +298,40 @@ body {
     }
     
     /* PARETO popup - display above text */
-    #paretoPopup {
-        top: 70px;
+    .word-container.pareto-container .popup-window {
+        top: 70px !important;
         min-width: clamp(260px, 92vw, 340px);
         padding: clamp(18px, 4.5vw, 24px);
     }
     
     /* HUMAIN popup - remains at bottom */
-    #humainPopup {
+    .word-container.humain-container .popup-window {
         min-width: clamp(260px, 92vw, 340px);
         padding: clamp(18px, 4.5vw, 24px);
-        bottom: 15px;
+        bottom: 15px !important;
         margin-bottom: 15px;
     }
     
-    #paretoPopup .popup-text {
+    .word-container.pareto-container .popup-window .popup-text {
         font-size: clamp(14px, 4.2vw, 16px);
         margin-bottom: clamp(14px, 3.5vw, 18px);
     }
     
-    #paretoPopup .popup-button {
+    .word-container.pareto-container .popup-window .popup-button {
         margin-bottom: clamp(14px, 3.5vw, 18px);
     }
     
-    #paretoPopup .popup-disclaimer {
+    .word-container.pareto-container .popup-window .popup-disclaimer {
         font-size: clamp(11px, 3.2vw, 12px);
         margin-bottom: 0;
     }
     
-    #humainPopup .popup-text {
+    .word-container.humain-container .popup-window .popup-text {
         font-size: clamp(14px, 4.2vw, 16px);
         margin-bottom: clamp(14px, 3.5vw, 18px);
     }
     
-    #humainPopup .popup-disclaimer {
+    .word-container.humain-container .popup-window .popup-disclaimer {
         font-size: clamp(11px, 3.2vw, 12px);
         margin-bottom: clamp(10px, 3vw, 14px);
     }
