@@ -9,108 +9,149 @@ document.addEventListener('DOMContentLoaded', function() {
     const paretoContainer = document.querySelector('.pareto-container');
     const humainContainer = document.querySelector('.humain-container');
     
-    // Check if mobile device
+    // Check if mobile device - more aggressive detection
     function isMobileDevice() {
-        return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        return window.innerWidth <= 768 || 
+               window.innerHeight <= 768 || 
+               /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+               ('ontouchstart' in window) ||
+               (navigator.maxTouchPoints > 0);
     }
     
-    // Mobile popup handling - completely separate from desktop
+    // Mobile popup handling - force override
     function setupMobilePopups() {
+        console.log('Setting up mobile popups, isMobile:', isMobileDevice(), 'width:', window.innerWidth, 'height:', window.innerHeight);
+        
         if (isMobileDevice()) {
-            // Remove all hover-related styles and classes
-            paretoPopup.style.transition = 'none';
-            humainPopup.style.transition = 'none';
+            // FORCE mobile styles - override everything
+            paretoPopup.style.cssText = `
+                position: fixed !important;
+                top: 80px !important;
+                left: 50% !important;
+                transform: translateX(-50%) translateY(-100%) !important;
+                opacity: 0 !important;
+                visibility: hidden !important;
+                z-index: 1500 !important;
+                transition: all 0.3s ease !important;
+                pointer-events: auto !important;
+            `;
             
-            // Set initial mobile positions
-            paretoPopup.style.position = 'fixed';
-            paretoPopup.style.top = '80px';
-            paretoPopup.style.left = '50%';
-            paretoPopup.style.transform = 'translateX(-50%) translateY(-100%)';
-            paretoPopup.style.opacity = '0';
-            paretoPopup.style.visibility = 'hidden';
-            paretoPopup.style.zIndex = '1500';
+            humainPopup.style.cssText = `
+                position: fixed !important;
+                bottom: 20px !important;
+                left: 50% !important;
+                transform: translateX(-50%) translateY(100%) !important;
+                opacity: 0 !important;
+                visibility: hidden !important;
+                z-index: 1500 !important;
+                transition: all 0.3s ease !important;
+                pointer-events: auto !important;
+            `;
             
-            humainPopup.style.position = 'fixed';
-            humainPopup.style.bottom = '20px';
-            humainPopup.style.left = '50%';
-            humainPopup.style.transform = 'translateX(-50%) translateY(100%)';
-            humainPopup.style.opacity = '0';
-            humainPopup.style.visibility = 'hidden';
-            humainPopup.style.zIndex = '1500';
-            
-            // Clear any existing event listeners
+            // Remove all existing event listeners by cloning
             const newParetoContainer = paretoContainer.cloneNode(true);
             const newHumainContainer = humainContainer.cloneNode(true);
             paretoContainer.parentNode.replaceChild(newParetoContainer, paretoContainer);
             humainContainer.parentNode.replaceChild(newHumainContainer, humainContainer);
             
-            // Add click handlers to new containers
+            // Add click handlers with force override
             newParetoContainer.addEventListener('click', function(e) {
+                e.preventDefault();
                 e.stopPropagation();
+                console.log('PARETO clicked');
                 
-                // Close HUMAIN if open
-                humainPopup.style.opacity = '0';
-                humainPopup.style.visibility = 'hidden';
-                humainPopup.style.transform = 'translateX(-50%) translateY(100%)';
+                // Force close HUMAIN
+                humainPopup.style.cssText += `
+                    opacity: 0 !important;
+                    visibility: hidden !important;
+                    transform: translateX(-50%) translateY(100%) !important;
+                `;
                 
                 // Toggle PARETO
-                if (paretoPopup.style.opacity === '1') {
-                    paretoPopup.style.opacity = '0';
-                    paretoPopup.style.visibility = 'hidden';
-                    paretoPopup.style.transform = 'translateX(-50%) translateY(-100%)';
+                const isVisible = paretoPopup.style.opacity === '1';
+                if (isVisible) {
+                    paretoPopup.style.cssText += `
+                        opacity: 0 !important;
+                        visibility: hidden !important;
+                        transform: translateX(-50%) translateY(-100%) !important;
+                    `;
                 } else {
-                    paretoPopup.style.opacity = '1';
-                    paretoPopup.style.visibility = 'visible';
-                    paretoPopup.style.transform = 'translateX(-50%) translateY(0)';
+                    paretoPopup.style.cssText += `
+                        opacity: 1 !important;
+                        visibility: visible !important;
+                        transform: translateX(-50%) translateY(0) !important;
+                    `;
                 }
             });
             
             newHumainContainer.addEventListener('click', function(e) {
+                e.preventDefault();
                 e.stopPropagation();
+                console.log('HUMAIN clicked');
                 
-                // Close PARETO if open
-                paretoPopup.style.opacity = '0';
-                paretoPopup.style.visibility = 'hidden';
-                paretoPopup.style.transform = 'translateX(-50%) translateY(-100%)';
+                // Force close PARETO
+                paretoPopup.style.cssText += `
+                    opacity: 0 !important;
+                    visibility: hidden !important;
+                    transform: translateX(-50%) translateY(-100%) !important;
+                `;
                 
                 // Toggle HUMAIN
-                if (humainPopup.style.opacity === '1') {
-                    humainPopup.style.opacity = '0';
-                    humainPopup.style.visibility = 'hidden';
-                    humainPopup.style.transform = 'translateX(-50%) translateY(100%)';
+                const isVisible = humainPopup.style.opacity === '1';
+                if (isVisible) {
+                    humainPopup.style.cssText += `
+                        opacity: 0 !important;
+                        visibility: hidden !important;
+                        transform: translateX(-50%) translateY(100%) !important;
+                    `;
                 } else {
-                    humainPopup.style.opacity = '1';
-                    humainPopup.style.visibility = 'visible';
-                    humainPopup.style.transform = 'translateX(-50%) translateY(0)';
+                    humainPopup.style.cssText += `
+                        opacity: 1 !important;
+                        visibility: visible !important;
+                        transform: translateX(-50%) translateY(0) !important;
+                    `;
                 }
             });
             
             // Close popups when clicking outside
             document.addEventListener('click', function closePopups(e) {
                 if (!newParetoContainer.contains(e.target) && !newHumainContainer.contains(e.target)) {
-                    paretoPopup.style.opacity = '0';
-                    paretoPopup.style.visibility = 'hidden';
-                    paretoPopup.style.transform = 'translateX(-50%) translateY(-100%)';
+                    paretoPopup.style.cssText += `
+                        opacity: 0 !important;
+                        visibility: hidden !important;
+                        transform: translateX(-50%) translateY(-100%) !important;
+                    `;
                     
-                    humainPopup.style.opacity = '0';
-                    humainPopup.style.visibility = 'hidden';
-                    humainPopup.style.transform = 'translateX(-50%) translateY(100%)';
+                    humainPopup.style.cssText += `
+                        opacity: 0 !important;
+                        visibility: hidden !important;
+                        transform: translateX(-50%) translateY(100%) !important;
+                    `;
                 }
             });
+            
+            console.log('Mobile popups setup complete');
+        } else {
+            // Desktop mode - ensure popups are reset
+            paretoPopup.style.cssText = '';
+            humainPopup.style.cssText = '';
+            console.log('Desktop mode detected');
         }
     }
     
-    // Initialize mobile popups
+    // Initialize immediately
     setupMobilePopups();
     
     // Handle orientation change
     window.addEventListener('orientationchange', function() {
-        setTimeout(setupMobilePopups, 200);
+        console.log('Orientation changed');
+        setTimeout(setupMobilePopups, 300);
     });
     
     // Handle window resize
     window.addEventListener('resize', function() {
-        setTimeout(setupMobilePopups, 200);
+        console.log('Window resized');
+        setTimeout(setupMobilePopups, 300);
     });
     
     // Toggle banner when exclamation button is clicked

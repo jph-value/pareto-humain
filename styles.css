@@ -196,13 +196,26 @@ body {
         letter-spacing: 0.02em;
     }
     
-    /* Disable all hover effects on mobile - let JavaScript handle everything */
-    .word-container:hover .popup-window {
+    /* Completely disable all hover effects on mobile */
+    .word-container:hover .popup-window,
+    .word-container:active .popup-window,
+    .word-container:focus .popup-window {
         opacity: 0 !important;
         visibility: hidden !important;
+        transform: none !important;
     }
     
+    /* Remove all positioning from CSS - let JavaScript handle it */
     .popup-window {
+        position: static !important;
+        top: auto !important;
+        bottom: auto !important;
+        left: auto !important;
+        right: auto !important;
+        transform: none !important;
+        margin: 0 !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
         min-width: clamp(280px, 90vw, 380px);
         max-width: 92vw;
         padding: clamp(20px, 5vw, 28px);
@@ -275,13 +288,26 @@ body {
         font-size: clamp(2.4rem, 11.5vw, 3.2rem);
     }
     
-    /* Disable all hover effects on mobile - let JavaScript handle everything */
-    .word-container:hover .popup-window {
+    /* Completely disable all hover effects on mobile */
+    .word-container:hover .popup-window,
+    .word-container:active .popup-window,
+    .word-container:focus .popup-window {
         opacity: 0 !important;
         visibility: hidden !important;
+        transform: none !important;
     }
     
+    /* Remove all positioning from CSS - let JavaScript handle it */
     .popup-window {
+        position: static !important;
+        top: auto !important;
+        bottom: auto !important;
+        left: auto !important;
+        right: auto !important;
+        transform: none !important;
+        margin: 0 !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
         min-width: clamp(260px, 92vw, 340px);
         padding: clamp(18px, 4.5vw, 24px);
         z-index: 1500;
