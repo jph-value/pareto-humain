@@ -183,7 +183,7 @@ body {
 }
 
 /* Responsive design */
-@media (max-width: 768px), (max-height: 768px) and (orientation: landscape) {
+@media (max-width: 768px) {
     .main-container {
         flex-direction: column;
         gap: clamp(30px, 6vh, 50px);
@@ -196,49 +196,27 @@ body {
         letter-spacing: 0.02em;
     }
     
-    /* Disable CSS hover behavior on mobile */
+    /* Disable all hover effects on mobile - let JavaScript handle everything */
     .word-container:hover .popup-window {
         opacity: 0 !important;
         visibility: hidden !important;
-        transform: translateX(-50%) translateY(100%) !important;
     }
     
-    /* Reset all popup windows for mobile */
     .popup-window {
-        position: fixed !important;
-        top: auto !important;
-        bottom: auto !important;
-        left: 50% !important;
-        transform: translateX(-50%) translateY(100%) !important;
-        margin-top: 0 !important;
-        margin-bottom: 20px !important;
         min-width: clamp(280px, 90vw, 380px);
         max-width: 92vw;
         padding: clamp(20px, 5vw, 28px);
         border-radius: 16px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         z-index: 1500;
-        opacity: 0 !important;
-        visibility: hidden !important;
-    }
-    
-    /* PARETO popup - display above text */
-    .word-container.pareto-container .popup-window {
-        top: 80px !important;
-        bottom: auto !important;
-        transform: translateX(-50%) translateY(-100%) !important;
-        margin-bottom: 0 !important;
-    }
-    
-    /* HUMAIN popup - remains at bottom */
-    .word-container.humain-container .popup-window {
-        bottom: 20px !important;
-        top: auto !important;
-        transform: translateX(-50%) translateY(100%) !important;
-        margin-bottom: 20px !important;
     }
     
     /* Button reordering for PARETO popup */
+    .word-container.pareto-container .popup-window {
+        display: flex;
+        flex-direction: column;
+    }
+    
     .word-container.pareto-container .popup-window .popup-text {
         order: 2;
         font-size: clamp(16px, 4.5vw, 18px);
@@ -287,7 +265,7 @@ body {
     }
 }
 
-@media (max-width: 480px), (max-height: 480px) and (orientation: landscape) {
+@media (max-width: 480px) {
     .main-container {
         gap: clamp(20px, 5vh, 35px);
         padding-bottom: clamp(80px, 18vh, 120px);
@@ -297,43 +275,16 @@ body {
         font-size: clamp(2.4rem, 11.5vw, 3.2rem);
     }
     
-    /* Disable CSS hover behavior on mobile */
+    /* Disable all hover effects on mobile - let JavaScript handle everything */
     .word-container:hover .popup-window {
         opacity: 0 !important;
         visibility: hidden !important;
-        transform: translateX(-50%) translateY(100%) !important;
     }
     
-    /* Reset all popup windows for mobile */
     .popup-window {
-        position: fixed !important;
-        top: auto !important;
-        bottom: auto !important;
-        left: 50% !important;
-        transform: translateX(-50%) translateY(100%) !important;
-        margin-top: 0 !important;
-        margin-bottom: 15px !important;
         min-width: clamp(260px, 92vw, 340px);
         padding: clamp(18px, 4.5vw, 24px);
         z-index: 1500;
-        opacity: 0 !important;
-        visibility: hidden !important;
-    }
-    
-    /* PARETO popup - display above text */
-    .word-container.pareto-container .popup-window {
-        top: 70px !important;
-        bottom: auto !important;
-        transform: translateX(-50%) translateY(-100%) !important;
-        margin-bottom: 0 !important;
-    }
-    
-    /* HUMAIN popup - remains at bottom */
-    .word-container.humain-container .popup-window {
-        bottom: 15px !important;
-        top: auto !important;
-        transform: translateX(-50%) translateY(100%) !important;
-        margin-bottom: 15px !important;
     }
     
     .word-container.pareto-container .popup-window .popup-text {
