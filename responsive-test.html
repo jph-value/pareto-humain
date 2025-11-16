@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Test - PARETO HUMAIN</title>
+    <style>
+        body {
+            font-family: monospace;
+            background: #000;
+            color: #fff;
+            padding: 20px;
+        }
+        .test-info {
+            margin-bottom: 20px;
+        }
+        .iframe-container {
+            border: 2px solid #333;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        iframe {
+            width: 100%;
+            border: none;
+        }
+        .size-controls {
+            margin: 20px 0;
+        }
+        button {
+            background: #333;
+            color: #fff;
+            border: 1px solid #555;
+            padding: 8px 16px;
+            margin: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-info">
+        <h1>Responsive Design Test</h1>
+        <p>Current viewport: <span id="viewport-size"></span></p>
+    </div>
+    
+    <div class="size-controls">
+        <button onclick="setSize('375x667')">iPhone SE</button>
+        <button onclick="setSize('390x844')">iPhone 12</button>
+        <button onclick="setSize('768x1024')">iPad</button>
+        <button onclick="setSize('1024x768')">iPad Landscape</button>
+        <button onclick="setSize('1440x900')">Desktop</button>
+        <button onclick="setSize('1920x1080')">Large Desktop</button>
+    </div>
+    
+    <div class="iframe-container">
+        <iframe id="test-frame" src="index.html" width="1440" height="900"></iframe>
+    </div>
+    
+    <script>
+        function updateViewportSize() {
+            document.getElementById('viewport-size').textContent = 
+                `${window.innerWidth}x${window.innerHeight}`;
+        }
+        
+        function setSize(size) {
+            const [width, height] = size.split('x');
+            const frame = document.getElementById('test-frame');
+            frame.width = width;
+            frame.height = height;
+            updateViewportSize();
+        }
+        
+        window.addEventListener('resize', updateViewportSize);
+        updateViewportSize();
+    </script>
+</body>
+</html>

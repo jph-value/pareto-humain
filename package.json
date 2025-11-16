@@ -1,0 +1,24 @@
+{
+  "name": "pareto-humain",
+  "version": "1.0.0",
+  "description": "PARETO HUMAIN - Deeptech systems optimizing for sustainable reality and economic systems aligning environment, ethics, and social utility.",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "build": "echo 'No build process required - static site ready for deployment'",
+    "deploy": "echo 'Ready for Netlify deployment'"
+  },
+  "keywords": [
+    "deeptech",
+    "sustainability",
+    "economics",
+    "ethics",
+    "social-utility",
+    "pareto",
+    "humain"
+  ],
+  "author": "PARETO HUMAIN",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {}
+}
