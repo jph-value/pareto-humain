@@ -196,17 +196,11 @@ body {
         letter-spacing: 0.02em;
     }
     
-    /* Completely disable all hover effects on mobile */
-    .word-container:hover .popup-window,
-    .word-container:active .popup-window,
-    .word-container:focus .popup-window {
+    /* Completely disable all popup behavior on mobile - JS handles everything */
+    .popup-window {
+        display: none !important;
         opacity: 0 !important;
         visibility: hidden !important;
-        transform: none !important;
-    }
-    
-    /* Remove all positioning from CSS - let JavaScript handle it */
-    .popup-window {
         position: static !important;
         top: auto !important;
         bottom: auto !important;
@@ -214,19 +208,20 @@ body {
         right: auto !important;
         transform: none !important;
         margin: 0 !important;
-        opacity: 0 !important;
-        visibility: hidden !important;
-        min-width: clamp(280px, 90vw, 380px);
-        max-width: 92vw;
-        padding: clamp(20px, 5vw, 28px);
-        border-radius: 16px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        z-index: 1500;
     }
     
-    /* Button reordering for PARETO popup */
+    /* Disable all hover effects */
+    .word-container:hover .popup-window,
+    .word-container:active .popup-window,
+    .word-container:focus .popup-window {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+    }
+    
+    /* Content styling for when JS shows popups */
     .word-container.pareto-container .popup-window {
-        display: flex;
+        display: flex !important;
         flex-direction: column;
     }
     
@@ -247,7 +242,6 @@ body {
         margin-bottom: 0;
     }
     
-    /* HUMAIN popup keeps original order */
     .word-container.humain-container .popup-window .popup-text {
         font-size: clamp(16px, 4.5vw, 18px);
         margin-bottom: clamp(16px, 4vw, 20px);
@@ -288,17 +282,11 @@ body {
         font-size: clamp(2.4rem, 11.5vw, 3.2rem);
     }
     
-    /* Completely disable all hover effects on mobile */
-    .word-container:hover .popup-window,
-    .word-container:active .popup-window,
-    .word-container:focus .popup-window {
+    /* Completely disable all popup behavior on mobile - JS handles everything */
+    .popup-window {
+        display: none !important;
         opacity: 0 !important;
         visibility: hidden !important;
-        transform: none !important;
-    }
-    
-    /* Remove all positioning from CSS - let JavaScript handle it */
-    .popup-window {
         position: static !important;
         top: auto !important;
         bottom: auto !important;
@@ -306,11 +294,15 @@ body {
         right: auto !important;
         transform: none !important;
         margin: 0 !important;
+    }
+    
+    /* Disable all hover effects */
+    .word-container:hover .popup-window,
+    .word-container:active .popup-window,
+    .word-container:focus .popup-window {
+        display: none !important;
         opacity: 0 !important;
         visibility: hidden !important;
-        min-width: clamp(260px, 92vw, 340px);
-        padding: clamp(18px, 4.5vw, 24px);
-        z-index: 1500;
     }
     
     .word-container.pareto-container .popup-window .popup-text {

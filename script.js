@@ -9,149 +9,113 @@ document.addEventListener('DOMContentLoaded', function() {
     const paretoContainer = document.querySelector('.pareto-container');
     const humainContainer = document.querySelector('.humain-container');
     
-    // Check if mobile device - more aggressive detection
-    function isMobileDevice() {
-        return window.innerWidth <= 768 || 
-               window.innerHeight <= 768 || 
-               /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-               ('ontouchstart' in window) ||
-               (navigator.maxTouchPoints > 0);
+    // Simple mobile detection
+    function isMobile() {
+        return window.innerWidth <= 768;
     }
     
-    // Mobile popup handling - force override
-    function setupMobilePopups() {
-        console.log('Setting up mobile popups, isMobile:', isMobileDevice(), 'width:', window.innerWidth, 'height:', window.innerHeight);
+    // COMPLETELY NEW MOBILE APPROACH
+    function initMobileMode() {
+        if (!isMobile()) return;
         
-        if (isMobileDevice()) {
-            // FORCE mobile styles - override everything
-            paretoPopup.style.cssText = `
-                position: fixed !important;
-                top: 80px !important;
-                left: 50% !important;
-                transform: translateX(-50%) translateY(-100%) !important;
-                opacity: 0 !important;
-                visibility: hidden !important;
-                z-index: 1500 !important;
-                transition: all 0.3s ease !important;
-                pointer-events: auto !important;
-            `;
+        console.log('INIT MOBILE MODE');
+        
+        // 1. Hide all popups initially
+        paretoPopup.style.display = 'none';
+        humainPopup.style.display = 'none';
+        
+        // 2. Remove all existing event listeners by replacing containers
+        const newParetoContainer = paretoContainer.cloneNode(true);
+        const newHumainContainer = humainContainer.cloneNode(true);
+        
+        paretoContainer.parentNode.replaceChild(newParetoContainer, paretoContainer);
+        humainContainer.parentNode.replaceChild(newHumainContainer, humainContainer);
+        
+        // 3. Simple click handlers
+        newParetoContainer.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('PARETO CLICKED');
             
-            humainPopup.style.cssText = `
-                position: fixed !important;
-                bottom: 20px !important;
-                left: 50% !important;
-                transform: translateX(-50%) translateY(100%) !important;
-                opacity: 0 !important;
-                visibility: hidden !important;
-                z-index: 1500 !important;
-                transition: all 0.3s ease !important;
-                pointer-events: auto !important;
-            `;
+            // Hide humain
+            humainPopup.style.display = 'none';
             
-            // Remove all existing event listeners by cloning
-            const newParetoContainer = paretoContainer.cloneNode(true);
-            const newHumainContainer = humainContainer.cloneNode(true);
-            paretoContainer.parentNode.replaceChild(newParetoContainer, paretoContainer);
-            humainContainer.parentNode.replaceChild(newHumainContainer, humainContainer);
+            // Toggle pareto
+            if (paretoPopup.style.display === 'block') {
+                paretoPopup.style.display = 'none';
+            } else {
+                // Show pareto with mobile styles
+                paretoPopup.style.display = 'block';
+                paretoPopup.style.position = 'fixed';
+                paretoPopup.style.top = '60px';
+                paretoPopup.style.left = '50%';
+                paretoPopup.style.transform = 'translateX(-50%)';
+                paretoPopup.style.zIndex = '9999';
+                paretoPopup.style.width = '90%';
+                paretoPopup.style.maxWidth = '400px';
+                paretoPopup.style.backgroundColor = 'white';
+                paretoPopup.style.padding = '20px';
+                paretoPopup.style.borderRadius = '12px';
+                paretoPopup.style.boxShadow = '0 8px 32px rgba(0,0,0,0.3)';
+            }
+        });
+        
+        newHumainContainer.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('HUMAIN CLICKED');
             
-            // Add click handlers with force override
-            newParetoContainer.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log('PARETO clicked');
-                
-                // Force close HUMAIN
-                humainPopup.style.cssText += `
-                    opacity: 0 !important;
-                    visibility: hidden !important;
-                    transform: translateX(-50%) translateY(100%) !important;
-                `;
-                
-                // Toggle PARETO
-                const isVisible = paretoPopup.style.opacity === '1';
-                if (isVisible) {
-                    paretoPopup.style.cssText += `
-                        opacity: 0 !important;
-                        visibility: hidden !important;
-                        transform: translateX(-50%) translateY(-100%) !important;
-                    `;
-                } else {
-                    paretoPopup.style.cssText += `
-                        opacity: 1 !important;
-                        visibility: visible !important;
-                        transform: translateX(-50%) translateY(0) !important;
-                    `;
-                }
-            });
+            // Hide pareto
+            paretoPopup.style.display = 'none';
             
-            newHumainContainer.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log('HUMAIN clicked');
-                
-                // Force close PARETO
-                paretoPopup.style.cssText += `
-                    opacity: 0 !important;
-                    visibility: hidden !important;
-                    transform: translateX(-50%) translateY(-100%) !important;
-                `;
-                
-                // Toggle HUMAIN
-                const isVisible = humainPopup.style.opacity === '1';
-                if (isVisible) {
-                    humainPopup.style.cssText += `
-                        opacity: 0 !important;
-                        visibility: hidden !important;
-                        transform: translateX(-50%) translateY(100%) !important;
-                    `;
-                } else {
-                    humainPopup.style.cssText += `
-                        opacity: 1 !important;
-                        visibility: visible !important;
-                        transform: translateX(-50%) translateY(0) !important;
-                    `;
-                }
-            });
-            
-            // Close popups when clicking outside
-            document.addEventListener('click', function closePopups(e) {
-                if (!newParetoContainer.contains(e.target) && !newHumainContainer.contains(e.target)) {
-                    paretoPopup.style.cssText += `
-                        opacity: 0 !important;
-                        visibility: hidden !important;
-                        transform: translateX(-50%) translateY(-100%) !important;
-                    `;
-                    
-                    humainPopup.style.cssText += `
-                        opacity: 0 !important;
-                        visibility: hidden !important;
-                        transform: translateX(-50%) translateY(100%) !important;
-                    `;
-                }
-            });
-            
-            console.log('Mobile popups setup complete');
-        } else {
-            // Desktop mode - ensure popups are reset
-            paretoPopup.style.cssText = '';
-            humainPopup.style.cssText = '';
-            console.log('Desktop mode detected');
-        }
+            // Toggle humain
+            if (humainPopup.style.display === 'block') {
+                humainPopup.style.display = 'none';
+            } else {
+                // Show humain with mobile styles
+                humainPopup.style.display = 'block';
+                humainPopup.style.position = 'fixed';
+                humainPopup.style.bottom = '20px';
+                humainPopup.style.left = '50%';
+                humainPopup.style.transform = 'translateX(-50%)';
+                humainPopup.style.zIndex = '9999';
+                humainPopup.style.width = '90%';
+                humainPopup.style.maxWidth = '400px';
+                humainPopup.style.backgroundColor = 'white';
+                humainPopup.style.padding = '20px';
+                humainPopup.style.borderRadius = '12px';
+                humainPopup.style.boxShadow = '0 8px 32px rgba(0,0,0,0.3)';
+            }
+        });
+        
+        // 4. Close on outside click
+        document.addEventListener('click', function(e) {
+            if (!newParetoContainer.contains(e.target) && !newHumainContainer.contains(e.target)) {
+                paretoPopup.style.display = 'none';
+                humainPopup.style.display = 'none';
+            }
+        });
+        
+        // 5. Close on popup click (prevent inside clicks from closing)
+        paretoPopup.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+        
+        humainPopup.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
     }
     
-    // Initialize immediately
-    setupMobilePopups();
+    // Initialize mobile mode
+    initMobileMode();
     
-    // Handle orientation change
-    window.addEventListener('orientationchange', function() {
-        console.log('Orientation changed');
-        setTimeout(setupMobilePopups, 300);
+    // Re-initialize on resize/orientation change
+    window.addEventListener('resize', function() {
+        setTimeout(initMobileMode, 100);
     });
     
-    // Handle window resize
-    window.addEventListener('resize', function() {
-        console.log('Window resized');
-        setTimeout(setupMobilePopups, 300);
+    window.addEventListener('orientationchange', function() {
+        setTimeout(initMobileMode, 100);
     });
     
     // Toggle banner when exclamation button is clicked
@@ -209,11 +173,4 @@ document.addEventListener('DOMContentLoaded', function() {
             humainContainer.style.transform = 'translateY(0)';
         }
     }, 400);
-});
-
-// Prevent popup from closing when clicking inside it
-document.querySelectorAll('.popup-window').forEach(popup => {
-    popup.addEventListener('click', function(e) {
-        e.stopPropagation();
-    });
 });
