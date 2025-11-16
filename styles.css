@@ -196,6 +196,13 @@ body {
         letter-spacing: 0.02em;
     }
     
+    /* Disable CSS hover behavior on mobile */
+    .word-container:hover .popup-window {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transform: translateX(-50%) translateY(100%) !important;
+    }
+    
     /* Reset all popup windows for mobile */
     .popup-window {
         position: fixed !important;
@@ -229,26 +236,6 @@ body {
         top: auto !important;
         transform: translateX(-50%) translateY(100%) !important;
         margin-bottom: 20px !important;
-    }
-    
-    /* Override hover behavior for mobile */
-    .word-container:hover .popup-window {
-        opacity: 1 !important;
-        visibility: visible !important;
-        transform: translateX(-50%) translateY(0) !important;
-    }
-    
-    /* Specific hover states for each popup */
-    .word-container.pareto-container:hover .popup-window {
-        opacity: 1 !important;
-        visibility: visible !important;
-        transform: translateX(-50%) translateY(0) !important;
-    }
-    
-    .word-container.humain-container:hover .popup-window {
-        opacity: 1 !important;
-        visibility: visible !important;
-        transform: translateX(-50%) translateY(0) !important;
     }
     
     /* Button reordering for PARETO popup */
@@ -310,6 +297,13 @@ body {
         font-size: clamp(2.4rem, 11.5vw, 3.2rem);
     }
     
+    /* Disable CSS hover behavior on mobile */
+    .word-container:hover .popup-window {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transform: translateX(-50%) translateY(100%) !important;
+    }
+    
     /* Reset all popup windows for mobile */
     .popup-window {
         position: fixed !important;
@@ -340,26 +334,6 @@ body {
         top: auto !important;
         transform: translateX(-50%) translateY(100%) !important;
         margin-bottom: 15px !important;
-    }
-    
-    /* Override hover behavior for mobile */
-    .word-container:hover .popup-window {
-        opacity: 1 !important;
-        visibility: visible !important;
-        transform: translateX(-50%) translateY(0) !important;
-    }
-    
-    /* Specific hover states for each popup */
-    .word-container.pareto-container:hover .popup-window {
-        opacity: 1 !important;
-        visibility: visible !important;
-        transform: translateX(-50%) translateY(0) !important;
-    }
-    
-    .word-container.humain-container:hover .popup-window {
-        opacity: 1 !important;
-        visibility: visible !important;
-        transform: translateX(-50%) translateY(0) !important;
     }
     
     .word-container.pareto-container .popup-window .popup-text {
