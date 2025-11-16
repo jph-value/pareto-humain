@@ -211,6 +211,8 @@ body {
         border-radius: 16px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         z-index: 1500;
+        opacity: 0 !important;
+        visibility: hidden !important;
     }
     
     /* PARETO popup - display above text */
@@ -229,7 +231,21 @@ body {
         margin-bottom: 20px !important;
     }
     
+    /* Override hover behavior for mobile */
     .word-container:hover .popup-window {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateX(-50%) translateY(0) !important;
+    }
+    
+    /* Specific hover states for each popup */
+    .word-container.pareto-container:hover .popup-window {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateX(-50%) translateY(0) !important;
+    }
+    
+    .word-container.humain-container:hover .popup-window {
         opacity: 1 !important;
         visibility: visible !important;
         transform: translateX(-50%) translateY(0) !important;
@@ -306,6 +322,8 @@ body {
         min-width: clamp(260px, 92vw, 340px);
         padding: clamp(18px, 4.5vw, 24px);
         z-index: 1500;
+        opacity: 0 !important;
+        visibility: hidden !important;
     }
     
     /* PARETO popup - display above text */
@@ -322,6 +340,26 @@ body {
         top: auto !important;
         transform: translateX(-50%) translateY(100%) !important;
         margin-bottom: 15px !important;
+    }
+    
+    /* Override hover behavior for mobile */
+    .word-container:hover .popup-window {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateX(-50%) translateY(0) !important;
+    }
+    
+    /* Specific hover states for each popup */
+    .word-container.pareto-container:hover .popup-window {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateX(-50%) translateY(0) !important;
+    }
+    
+    .word-container.humain-container:hover .popup-window {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateX(-50%) translateY(0) !important;
     }
     
     .word-container.pareto-container .popup-window .popup-text {
