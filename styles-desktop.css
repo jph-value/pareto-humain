@@ -1,0 +1,246 @@
+/* Desktop-specific styles - hover effects enabled */
+
+/* Basic reset and setup */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Main container */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(40px, 8vh, 60px);
+    padding: 0 clamp(20px, 5vw, 40px);
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* Word containers */
+.word-container {
+    position: relative;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+/* Word styling */
+.word {
+    font-size: clamp(3.5rem, 8vw, 6rem);
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    color: rgba(255, 255, 255, 0.9);
+    text-align: center;
+    user-select: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.word:hover {
+    color: rgba(255, 255, 255, 1);
+    transform: scale(1.05);
+}
+
+/* Popup windows - positioned for desktop hover */
+.popup-window {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: clamp(20px, 4vw, 30px);
+    min-width: clamp(280px, 25vw, 380px);
+    max-width: 90vw;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%) translateY(10px);
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+    z-index: 1002;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Desktop hover effects */
+.word-container:hover .popup-window {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Popup content */
+.popup-text {
+    font-size: clamp(18px, 3.5vw, 22px);
+    line-height: 1.5;
+    margin-bottom: clamp(20px, 4vw, 30px);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.popup-disclaimer {
+    font-size: clamp(12px, 2vw, 14px);
+    color: rgba(255, 255, 255, 0.6);
+    font-style: italic;
+    margin-bottom: clamp(15px, 3vw, 20px);
+}
+
+.popup-button {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: clamp(14px, 3vw, 18px) clamp(24px, 4vw, 32px);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: clamp(14px, 2.5vw, 16px);
+    font-weight: 500;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    min-width: clamp(140px, 15vw, 180px);
+    text-align: center;
+}
+
+.popup-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Popup positioning */
+.pareto-container .popup-window {
+    top: -20px;
+    left: 50%;
+}
+
+.humain-container .popup-window {
+    bottom: -20px;
+    left: 50%;
+}
+
+/* PARETO popup content reordering */
+.pareto-container .popup-window .popup-text {
+    order: 2;
+}
+
+.pareto-container .popup-window .popup-button {
+    order: 1;
+    margin-bottom: clamp(16px, 3vw, 20px);
+}
+
+.pareto-container .popup-window .popup-disclaimer {
+    order: 3;
+    margin-bottom: 0;
+}
+
+/* Exclamation button */
+.exclamation-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.exclamation-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+/* Banner */
+.banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-size: 16px;
+    z-index: 2000;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.banner.show {
+    transform: translateY(0);
+}
+
+/* Responsive adjustments for smaller desktop screens */
+@media (max-width: 1024px) {
+    .main-container {
+        gap: clamp(30px, 6vh, 50px);
+        padding: 0 clamp(15px, 5vw, 30px);
+    }
+    
+    .word {
+        font-size: clamp(3rem, 7vw, 5rem);
+    }
+    
+    .popup-window {
+        min-width: clamp(260px, 30vw, 340px);
+        padding: clamp(18px, 3.5vw, 25px);
+    }
+}
+
+@media (max-width: 768px) {
+    /* This should not be used for mobile - use mobile.html instead */
+    .main-container {
+        flex-direction: column;
+        gap: clamp(30px, 6vh, 50px);
+        padding: 0 clamp(15px, 5vw, 20px);
+        padding-bottom: clamp(100px, 20vh, 150px);
+    }
+    
+    .word {
+        font-size: clamp(2.8rem, 10.8vw, 4.2rem);
+        letter-spacing: 0.02em;
+    }
+    
+    .popup-window {
+        position: static;
+        opacity: 0;
+        visibility: hidden;
+        transform: none;
+        margin: 20px 0;
+        min-width: clamp(280px, 90vw, 380px);
+        max-width: 92vw;
+    }
+    
+    .word-container:hover .popup-window {
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+    }
+    
+    .pareto-container .popup-window,
+    .humain-container .popup-window {
+        top: auto;
+        bottom: auto;
+        left: auto;
+        right: auto;
+    }
+}
