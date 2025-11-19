@@ -16,6 +16,16 @@
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="PARETO HUMAIN">
     <meta name="twitter:description" content="Deeptech systems optimizing for sustainable reality and economic systems aligning environment, ethics, and social utility.">
+    <script>
+        (function() {
+            if (!/mobile\.html$/.test(window.location.pathname)) return;
+            if (window.history && window.history.replaceState) {
+                const cleanPath = window.location.pathname.replace(/mobile\.html$/, '') || '/';
+                const newUrl = cleanPath + window.location.search + window.location.hash;
+                window.history.replaceState(null, document.title, newUrl);
+            }
+        })();
+    </script>
 </head>
 <body>
     <!-- Exclamation button in top-left corner -->
