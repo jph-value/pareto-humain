@@ -21,11 +21,11 @@ body {
 /* Main container */
 .main-container {
     display: flex;
-    flex-direction: column;
-    gap: clamp(40px, 8vh, 60px);
-    padding: 0 clamp(20px, 5vw, 40px);
-    align-items: center;
+    flex-direction: row;
     justify-content: center;
+    align-items: flex-start;
+    gap: clamp(80px, 12vw, 160px);
+    padding: clamp(40px, 6vw, 80px);
     min-height: 100vh;
 }
 
@@ -36,6 +36,10 @@ body {
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.8s ease, transform 0.8s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 /* Word styling */
@@ -57,6 +61,8 @@ body {
 /* Popup windows - positioned for desktop hover */
 .popup-window {
     position: absolute;
+    top: calc(100% + 20px);
+    left: 50%;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -66,7 +72,7 @@ body {
     max-width: 90vw;
     opacity: 0;
     visibility: hidden;
-    transform: translateX(-50%) translateY(10px);
+    transform: translate(-50%, 10px);
     transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
     z-index: 1002;
     display: flex;
@@ -77,7 +83,7 @@ body {
 .word-container:hover .popup-window {
     opacity: 1;
     visibility: visible;
-    transform: translateX(-50%) translateY(0);
+    transform: translate(-50%, 0);
 }
 
 /* Popup content */
@@ -117,14 +123,10 @@ body {
 }
 
 /* Popup positioning */
-.pareto-container .popup-window {
-    top: -20px;
-    left: 50%;
-}
-
+.pareto-container .popup-window,
 .humain-container .popup-window {
-    bottom: -20px;
-    left: 50%;
+    top: calc(100% + 20px);
+    bottom: auto;
 }
 
 /* PARETO popup content reordering */
@@ -192,7 +194,9 @@ body {
 /* Responsive adjustments for smaller desktop screens */
 @media (max-width: 1024px) {
     .main-container {
-        gap: clamp(30px, 6vh, 50px);
+        flex-direction: column;
+        align-items: center;
+        gap: clamp(40px, 8vh, 60px);
         padding: 0 clamp(15px, 5vw, 30px);
     }
     

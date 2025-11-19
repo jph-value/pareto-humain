@@ -8,172 +8,156 @@ document.addEventListener('DOMContentLoaded', function() {
     const humainPopup = document.getElementById('humainPopup');
     const paretoContainer = document.querySelector('.pareto-container');
     const humainContainer = document.querySelector('.humain-container');
-    
-    // Simple mobile detection
+
+    const popupStyleProps = [
+        'display', 'position', 'top', 'bottom', 'left', 'right', 'transform',
+        'zIndex', 'width', 'maxWidth', 'backgroundColor', 'padding',
+        'borderRadius', 'boxShadow'
+    ];
+
+    let currentMode = null;
+    let mobileListenersAttached = false;
+
     function isMobile() {
         return window.innerWidth <= 768;
     }
-    
-    // Desktop hover functionality (original working version)
-    function initDesktopMode() {
-        if (isMobile()) return;
-        
-        console.log('Desktop mode - using hover');
-        
-        // Reset any mobile styles
-        paretoPopup.style.display = '';
-        paretoPopup.style.position = '';
-        paretoPopup.style.top = '';
-        paretoPopup.style.bottom = '';
-        paretoPopup.style.left = '';
-        paretoPopup.style.right = '';
-        paretoPopup.style.transform = '';
-        paretoPopup.style.zIndex = '';
-        paretoPopup.style.width = '';
-        paretoPopup.style.maxWidth = '';
-        paretoPopup.style.backgroundColor = '';
-        paretoPopup.style.padding = '';
-        paretoPopup.style.borderRadius = '';
-        paretoPopup.style.boxShadow = '';
-        
-        humainPopup.style.display = '';
-        humainPopup.style.position = '';
-        humainPopup.style.top = '';
-        humainPopup.style.bottom = '';
-        humainPopup.style.left = '';
-        humainPopup.style.right = '';
-        humainPopup.style.transform = '';
-        humainPopup.style.zIndex = '';
-        humainPopup.style.width = '';
-        humainPopup.style.maxWidth = '';
-        humainPopup.style.backgroundColor = '';
-        humainPopup.style.padding = '';
-        humainPopup.style.borderRadius = '';
-        humainPopup.style.boxShadow = '';
+
+    function resetPopupStyles(popup) {
+        popupStyleProps.forEach(prop => {
+            popup.style[prop] = '';
+        });
     }
-    
-    // Mobile click functionality
-    function initMobileMode() {
-        if (!isMobile()) return;
-        
-        console.log('Mobile mode - using click');
-        
-        // Hide popups initially
+
+    function hideParetoPopup() {
         paretoPopup.style.display = 'none';
+    }
+
+    function hideHumainPopup() {
         humainPopup.style.display = 'none';
-        
-        // Remove any existing mobile event listeners by cloning containers
-        const existingParetoContainer = document.querySelector('.pareto-container');
-        const existingHumainContainer = document.querySelector('.humain-container');
-        
-        if (existingParetoContainer && existingHumainContainer) {
-            const newParetoContainer = existingParetoContainer.cloneNode(true);
-            const newHumainContainer = existingHumainContainer.cloneNode(true);
-            
-            existingParetoContainer.parentNode.replaceChild(newParetoContainer, existingParetoContainer);
-            existingHumainContainer.parentNode.replaceChild(newHumainContainer, existingHumainContainer);
-            
-            // Add click handlers to new containers
-            newParetoContainer.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log('PARETO clicked');
-                
-                // Hide humain popup
-                humainPopup.style.display = 'none';
-                
-                // Toggle pareto popup
-                if (paretoPopup.style.display === 'block') {
-                    paretoPopup.style.display = 'none';
-                } else {
-                    // Show pareto with mobile styles
-                    paretoPopup.style.display = 'block';
-                    paretoPopup.style.position = 'fixed';
-                    paretoPopup.style.top = '60px';
-                    paretoPopup.style.left = '50%';
-                    paretoPopup.style.transform = 'translateX(-50%)';
-                    paretoPopup.style.zIndex = '9999';
-                    paretoPopup.style.width = '90%';
-                    paretoPopup.style.maxWidth = '400px';
-                    paretoPopup.style.backgroundColor = 'white';
-                    paretoPopup.style.padding = '20px';
-                    paretoPopup.style.borderRadius = '12px';
-                    paretoPopup.style.boxShadow = '0 8px 32px rgba(0,0,0,0.3)';
-                }
-            });
-            
-            newHumainContainer.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log('HUMAIN clicked');
-                
-                // Hide pareto popup
-                paretoPopup.style.display = 'none';
-                
-                // Toggle humain popup
-                if (humainPopup.style.display === 'block') {
-                    humainPopup.style.display = 'none';
-                } else {
-                    // Show humain with mobile styles
-                    humainPopup.style.display = 'block';
-                    humainPopup.style.position = 'fixed';
-                    humainPopup.style.bottom = '20px';
-                    humainPopup.style.left = '50%';
-                    humainPopup.style.transform = 'translateX(-50%)';
-                    humainPopup.style.zIndex = '9999';
-                    humainPopup.style.width = '90%';
-                    humainPopup.style.maxWidth = '400px';
-                    humainPopup.style.backgroundColor = 'white';
-                    humainPopup.style.padding = '20px';
-                    humainPopup.style.borderRadius = '12px';
-                    humainPopup.style.boxShadow = '0 8px 32px rgba(0,0,0,0.3)';
-                }
-            });
-            
-            // Close popups when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!newParetoContainer.contains(e.target) && !newHumainContainer.contains(e.target)) {
-                    paretoPopup.style.display = 'none';
-                    humainPopup.style.display = 'none';
-                }
-            });
-            
-            // Prevent popup clicks from closing popups
-            paretoPopup.addEventListener('click', function(e) {
-                e.stopPropagation();
-            });
-            
-            humainPopup.addEventListener('click', function(e) {
-                e.stopPropagation();
-            });
+    }
+
+    function showParetoPopup() {
+        paretoPopup.style.display = 'block';
+        paretoPopup.style.position = 'fixed';
+        paretoPopup.style.top = '60px';
+        paretoPopup.style.left = '50%';
+        paretoPopup.style.transform = 'translateX(-50%)';
+        paretoPopup.style.zIndex = '9999';
+        paretoPopup.style.width = '90%';
+        paretoPopup.style.maxWidth = '400px';
+        paretoPopup.style.backgroundColor = 'white';
+        paretoPopup.style.padding = '20px';
+        paretoPopup.style.borderRadius = '12px';
+        paretoPopup.style.boxShadow = '0 8px 32px rgba(0,0,0,0.3)';
+    }
+
+    function showHumainPopup() {
+        humainPopup.style.display = 'block';
+        humainPopup.style.position = 'fixed';
+        humainPopup.style.bottom = '20px';
+        humainPopup.style.left = '50%';
+        humainPopup.style.transform = 'translateX(-50%)';
+        humainPopup.style.zIndex = '9999';
+        humainPopup.style.width = '90%';
+        humainPopup.style.maxWidth = '400px';
+        humainPopup.style.backgroundColor = 'white';
+        humainPopup.style.padding = '20px';
+        humainPopup.style.borderRadius = '12px';
+        humainPopup.style.boxShadow = '0 8px 32px rgba(0,0,0,0.3)';
+    }
+
+    const stopPropagation = (e) => e.stopPropagation();
+
+    const handleParetoTap = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        hideHumainPopup();
+
+        if (paretoPopup.style.display === 'block') {
+            hideParetoPopup();
+        } else {
+            showParetoPopup();
+        }
+    };
+
+    const handleHumainTap = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        hideParetoPopup();
+
+        if (humainPopup.style.display === 'block') {
+            hideHumainPopup();
+        } else {
+            showHumainPopup();
+        }
+    };
+
+    const handleOutsideTap = (e) => {
+        if (
+            !paretoContainer.contains(e.target) &&
+            !humainContainer.contains(e.target) &&
+            !paretoPopup.contains(e.target) &&
+            !humainPopup.contains(e.target)
+        ) {
+            hideParetoPopup();
+            hideHumainPopup();
+        }
+    };
+
+    function attachMobileListeners() {
+        if (mobileListenersAttached) return;
+        paretoContainer.addEventListener('click', handleParetoTap);
+        humainContainer.addEventListener('click', handleHumainTap);
+        document.addEventListener('click', handleOutsideTap);
+        paretoPopup.addEventListener('click', stopPropagation);
+        humainPopup.addEventListener('click', stopPropagation);
+        mobileListenersAttached = true;
+    }
+
+    function detachMobileListeners() {
+        if (!mobileListenersAttached) return;
+        paretoContainer.removeEventListener('click', handleParetoTap);
+        humainContainer.removeEventListener('click', handleHumainTap);
+        document.removeEventListener('click', handleOutsideTap);
+        paretoPopup.removeEventListener('click', stopPropagation);
+        humainPopup.removeEventListener('click', stopPropagation);
+        mobileListenersAttached = false;
+    }
+
+    function applyDesktopMode() {
+        if (currentMode === 'desktop') return;
+        detachMobileListeners();
+        hideParetoPopup();
+        hideHumainPopup();
+        resetPopupStyles(paretoPopup);
+        resetPopupStyles(humainPopup);
+        currentMode = 'desktop';
+    }
+
+    function applyMobileMode() {
+        if (currentMode === 'mobile') return;
+        attachMobileListeners();
+        hideParetoPopup();
+        hideHumainPopup();
+        currentMode = 'mobile';
+    }
+
+    function syncMode() {
+        if (isMobile()) {
+            applyMobileMode();
+        } else {
+            applyDesktopMode();
         }
     }
-    
-    // Initialize appropriate mode
-    if (isMobile()) {
-        initMobileMode();
-    } else {
-        initDesktopMode();
-    }
-    
-    // Re-initialize on resize
+
+    syncMode();
+
     window.addEventListener('resize', function() {
-        setTimeout(function() {
-            if (isMobile()) {
-                initMobileMode();
-            } else {
-                initDesktopMode();
-            }
-        }, 100);
+        setTimeout(syncMode, 100);
     });
-    
-    // Re-initialize on orientation change (mobile)
+
     window.addEventListener('orientationchange', function() {
-        setTimeout(function() {
-            if (isMobile()) {
-                initMobileMode();
-            }
-        }, 100);
+        setTimeout(syncMode, 100);
     });
     
     // Toggle banner when exclamation button is clicked
